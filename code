@@ -1,1 +1,216 @@
+/*******************************************************************************
+* @dosya LCD Uygulamasi
+* @yazar Ceyhun Ergün
+* @sürüm V0.0.2
+* @tarih 12.21.2019
+* @özet PMOD CLP ile 2x16 Grafik LCD üzerinde yazi yazma çalismasi yapilmistir.
 
+******************************************************************************/
+module pmodclp(clk,backlight,rs, rw, en, data); 
+
+//-------------Giris Portlari--------------------
+input clk;
+//-------------Cikis Portlari--------------------
+output rs;
+output en;
+output [7:0] data;
+output rw;
+output backlight;
+
+//-------------Register Tanimlari----------------
+reg rs;
+reg en;
+reg [7:0] data = 8'b11111111;
+reg [15:0] counter = 16'h0000;
+reg [15:0] cmd_counter = 16'h0000;
+reg clkPulse = 1'b0;
+reg [5:0] current = 6'b000000;
+reg [5:0] next = 6'b000000;
+
+//reg btn_sgnl = 1'b0;
+//-------------Uygulama Kodu Baslangici--------------------
+always @(posedge clkPulse)
+begin
+	cmd_counter <=  (cmd_counter + 1);
+	case(current)
+		6'd0:
+			begin
+				rs<=0; data<=8'h38;next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd1:
+			begin
+				rs<=0; data<=8'h0C;next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd2:
+			begin
+				rs<=0; data<=8'h06;next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd3:
+			begin
+				rs<=0; data<=8'h01;next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd4:
+			begin
+				rs<=1; data<=" ";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd5:
+			begin
+				rs<=1; data<=" ";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd6:
+			begin
+				rs<=1; data<="C";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd7:
+			begin
+				rs<=1; data<="E";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd8:
+			begin
+				rs<=1; data<=" ";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd9:
+			begin
+				rs<=1; data<="1";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd10:
+			begin
+				rs<=1; data<="8";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd11:
+			begin
+				rs<=1; data<="0";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd12:
+			begin
+				rs<=1; data<="2";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd13:
+			begin
+				rs<=1; data<="0";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd14:
+			begin
+				rs<=1; data<="8";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd15:
+			begin
+				rs<=1; data<="0";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd16:
+			begin
+				rs<=1; data<="5";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd17:
+			begin
+				rs<=1; data<="8";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd18:
+			begin
+				rs<=1; data<=" ";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd19:
+			begin
+				rs<=1; data<=" ";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+//-------------2x16 LCD 2. Satira Gecme Islemi--------------------
+		6'd20:
+			begin
+				rs<=0; data<=8'hC0;next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end	
+///////////////////////////////////////////////////////////
+		6'd21:
+			begin
+				rs<=1; data<="K";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd22:
+			begin
+				rs<=1; data<="O";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd23:
+			begin
+				rs<=1; data<="U";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd24:
+			begin
+				rs<=1; data<="-";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd25:
+			begin
+				rs<=1; data<="E";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd26:
+			begin
+				rs<=1; data<="H";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd27:
+			begin
+				rs<=1; data<="M";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd28:
+			begin
+				rs<=1; data<=" ";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd29:
+			begin
+				rs<=1; data<="P";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd30:
+			begin
+				rs<=1; data<="M";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd31:
+			begin
+				rs<=1; data<="O";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd32:
+			begin
+				rs<=1; data<="D";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;
+				en <= 1'b1;
+			end
+		6'd33:
+			begin
+				rs<=1; data<="-";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd34:
+			begin
+				rs<=1; data<="C";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd35:
+			begin
+				rs<=1; data<="L";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd36:
+			begin
+				rs<=1; data<="P";next <= (current + 1);current <= 6'd50;cmd_counter <= 0;en <= 1'b1;
+			end
+		6'd37:
+			begin
+				current <= 6'd51;
+			end
+		6'd50:
+			begin
+				if(cmd_counter >= 16'h0fff)
+				begin
+					en <= 0;current <= next;
+				end
+			end
+		default:
+			begin
+			end
+	endcase
+end
+
+//-------------Clock Ayarlari--------------------
+always @(posedge clk)
+begin	
+	counter = counter + 1;
+	if(counter == 16'h000f)
+		begin
+			counter = 0;
+			clkPulse = ~clkPulse;
+		end
+end
+assign backlight = 1'b1;//arka plan isigini acmak icin kullanilmistir.
+assign rw = 1'b0; 		//rw pini surekli yazma modunda kullanilacagi icin 0'a setlenmistir.
+endmodule 					// pmodclp
